@@ -2,8 +2,14 @@
 
 Note: This setup is macOS-centric.
 
-After initially cloning (or updating) the repository, you can install/upgrade project dependencies via the following
-steps.
+After initially cloning (or updating) the repository, you can install/upgrade
+project dependencies via the following steps.
+
+## macOS
+
+```shell
+brew install libpq
+```
 
 ## Python 3.12
 
@@ -16,37 +22,51 @@ brew install python@3.12
 This will install the Python packages required for this project.
 
 ```shell
-pip3 install --break-system-packages --user --requirement requirements.txt
+python3.12 -m venv .venv
+source .venv/bin/activate
+pip install --requirement requirements.txt
 ```
 
 # Development
 
 ## Docker Compose
 
-You can choose to launch Docker Compose for any necessary dependencies. I choose to run it in the foreground and watch
-the logs.
+You can choose to launch Docker Compose for any necessary dependencies. I choose
+to run it in the foreground and watch the logs.
 
-I have included PostgreSQL (RDBMS), Redis (Cache), and localstack (provides local AWS resources).
+I have included PostgreSQL (RDBMS), Redis (Cache), and localstack (provides
+local AWS resources).
 
 ```shell
 docker compose up
 ```
 
-If you need to purge the entire Docker environment (relevant for this project), you can do so via:
+If you need to purge the entire Docker environment (relevant for this project),
+you can do so via:
 
 ```shell
 docker compose down --volumes
 ```
 
+## PostgreSQL CLI
+
+```shell
+export PGPASSFILE=$(pwd)/.pgpass
+psql -h localhost -d interview_db -U interview_user
+```
+
 ## Testing and Debugging
 
-This will execute PyTest, which automatically enumerates test suites in the `test/` directory.
+This will execute PyTest, which automatically enumerates test suites in the
+`test/` directory.
 
 ```shell
 make test
 ```
 
-Alternatively, you can use VSCode's debugger option `Python Debugger: Debug Python file` against the test suite (file), in conjunction with breakpoints on your implementation/test code.
+Alternatively, you can use VSCode's debugger option
+`Python Debugger: Debug Python file` against the test suite (file), in
+conjunction with breakpoints on your implementation/test code.
 
 ## Background
 
