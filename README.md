@@ -50,7 +50,15 @@ docker compose down --volumes
 
 ## PostgreSQL CLI
 
+The `PGPASSFILE` environment variable instructs `psql` to read the password from
+the specified file.
+
+**NEVER CHECK IN THE .pgpass FILE INTO SOURCE CONTROL**. Since this is only
+meant to be executed locally against an ephemeral instance running in Docker,
+there is zero risk of compromise (that we would ever care about).
+
 ```shell
+chmod 0600 $(pwd)/.pgpass
 export PGPASSFILE=$(pwd)/.pgpass
 psql -h localhost -d interview_db -U interview_user
 ```
